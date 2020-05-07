@@ -38,16 +38,23 @@ public class DailyLogger: LogHandler {
     }
     
     private var __file: DailyFile?
+    private var __logDirectory: URL?
     
-    private lazy var logDirectory: URL = {
-        var path = DirectoryConfiguration.detect().logsDirectory + "Standard/"
-        return URL(fileURLWithPath: path)
-    }()
+    private var logDirectory: URL? {
+        if __logDirectory == nil, Application.isRunning {
+            let path = Application.shared.directory.logsDirectory + "Standard/"
+            __logDirectory = URL(fileURLWithPath: path)
+        }
+        return __logDirectory
+    }
     
-    private func reuseDailyFile() throws -> DailyFile {
+    private func reuseDailyFile() throws -> DailyFile? {
+        guard let directory = logDirectory else {
+            return nil
+        }
         guard let file = __file, !file.isOutDated else {
             let date = Date()
-            let f = try DailyFile(file: .make(for: date, at: logDirectory, createIfNotExists: true), date: date)
+            let f = try DailyFile(file: .make(for: date, at: directory, createIfNotExists: true), date: date)
             __file = f
             return f
         }
@@ -78,9 +85,9 @@ public class DailyLogger: LogHandler {
             text += " " + self.metadata.description.consoleText()
         }
         do {
-            let dailyFile = try reuseDailyFile()
-            print(text.terminalStylize(), to: &dailyFile.file)
-            
+            if let dailyFile = try reuseDailyFile() {
+                print(text.terminalStylize(), to: &dailyFile.file)
+            }
             if self.logLevel == .debug || self.logLevel == .trace {
                 print(text.description)
             }
