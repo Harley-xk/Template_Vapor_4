@@ -21,6 +21,10 @@ extension Application {
         return runningApplication
     }
     
+    static var isRunning: Bool {
+        return runningApplication != nil
+    }
+    
     func configure() throws {
         // uncomment to serve files from /Public folder
         middleware.use(FileMiddleware(publicDirectory: directory.publicDirectory))
