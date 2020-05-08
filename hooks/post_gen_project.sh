@@ -7,6 +7,8 @@ LIGHTGREEN='\033[0;92m'
 CYAN='\033[0;36m'
 LIGHTCYAN='\033[0;96m'
 
+mv env.development .env.development
+
 echo -e "${GREEN}All files successfuly generated!"
 echo -e "${GREEN}Fetching dependencies..."
 
