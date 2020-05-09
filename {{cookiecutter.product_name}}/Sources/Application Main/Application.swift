@@ -38,8 +38,7 @@ extension Application {
         ContentConfiguration.global.use(encoder: encoder, for: .json)
         
         // Configure
-        let config = Config.global
-        
+        let config = try Config.detect(environment: environment)
         // 服务器配置
         http.server.configuration.hostname = config.server.host
         http.server.configuration.port = config.server.port
@@ -58,7 +57,7 @@ extension Application {
         migrations.add(CreateUser())
         migrations.add(CreateToken())
         migrations.add(CreateAccessLog())
-
+        
         try autoMigrate().wait()
     }
 }
