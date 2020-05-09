@@ -1,4 +1,6 @@
 {
     "product_name": "Hello",
+    "database_username": "root",
+    "database_password": "root",
     "database_name": "Hello"
 }
