@@ -11,7 +11,7 @@ import Vapor
 
 private var runningApplication: Application!
 
-extension Application {
+public extension Application {
     static var shared: Application {
         return runningApplication
     }

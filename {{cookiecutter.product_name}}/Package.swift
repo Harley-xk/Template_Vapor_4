@@ -13,10 +13,11 @@ let package = Package(
         .package(url: "https://github.com/vapor/fluent-postgres-driver.git", from: "2.0.0-rc"),
     ],
     targets: [
-        .target(name: "{{cookiecutter.product_name}}", dependencies: [
+        .target(name: "App", dependencies: [
             .product(name: "Vapor", package: "vapor"),
             .product(name: "Fluent", package: "fluent"),
             .product(name: "FluentPostgresDriver", package: "fluent-postgres-driver"),
-        ], path: "./Sources"),
+        ]),
+        .target(name: "{{cookiecutter.product_name}}", dependencies: ["App"])
     ]
 )

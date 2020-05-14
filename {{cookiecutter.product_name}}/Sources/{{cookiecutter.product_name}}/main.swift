@@ -1,4 +1,5 @@
 import Vapor
+import App
 
 /// 检测运行环境
 fileprivate var env = try Environment.detect()
